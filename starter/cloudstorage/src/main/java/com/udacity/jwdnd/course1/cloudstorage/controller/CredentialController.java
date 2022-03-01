@@ -34,7 +34,7 @@ public class CredentialController {
             credential.setUrl(newCredential.getUrl());
             credential.setUserName(newCredential.getUserName());
             if (!credential.getPassword().equals(newCredential.getPassword())){
-                Pair<String, String> pair = credentialService.getHashedPasswordWithKey(newCredential.getPassword());
+                Pair<String, String> pair = credentialService.getEncryptedPasswordAndKey(newCredential.getPassword());
                 credential.setKey(pair.getLeft());
                 credential.setPassword(pair.getRight());
 

@@ -17,12 +17,12 @@ public class CredentialService {
 
     private final CredentialMapper credentialMapper;
     private final UserMapper userMapper;
-    private final HashService hashService;
+    private final EncryptionService encryptionService;
 
-    public CredentialService(CredentialMapper credentialMapper, UserMapper userMapper, HashService hashService) {
+    public CredentialService(CredentialMapper credentialMapper, UserMapper userMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
         this.userMapper = userMapper;
-        this.hashService = hashService;
+        this.encryptionService = encryptionService;
     }
 
     public void createCredential(CredentialForm form ,String userName) {
@@ -30,19 +30,19 @@ public class CredentialService {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
-        Pair<String, String> pair = getHashedPasswordWithKey(form.getPassword());
+        Pair<String, String> pair = getEncryptedPasswordAndKey(form.getPassword());
         Credential credential = new Credential(0, form.getUrl(), form.getUserName(), pair.getLeft(),pair.getRight(), userId);
         credentialMapper.insert(credential);
     }
 
-    public Pair<String,String> getHashedPasswordWithKey(String password){
+    public Pair<String,String> getEncryptedPasswordAndKey(String password){
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         String encodedSalt = Base64.getEncoder().encodeToString(salt);
-        String hashedPassword = hashService.getHashedValue(password, encodedSalt);
+        String encryptedPassword = encryptionService.encryptValue(password, encodedSalt);
 
-        return new ImmutablePair<String,String>(encodedSalt,hashedPassword);
+        return new ImmutablePair<String,String>(encodedSalt,encryptedPassword);
 
     }
 
