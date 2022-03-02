@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                        <button id="btn-add-note"> style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
@@ -96,12 +96,12 @@
 
                                     <tr th:each="note : ${notes}">
                                         <td>
-                                            <button type="button" class="btn btn-success"
+                                            <button id="btn-edit-note" type="button" class="btn btn-success"
                                                     th:data-id="${note.getNoteId()}"
                                                     th:data-title="${note.getNoteTitle()}"
                                                     th:data-description="${note.getNoteDescription()}"
                                                     th:onclick="showNoteModal(this.getAttribute('data-id'), this.getAttribute('data-title'), this.getAttribute('data-description'))">Edit</button>
-                                            <a class="btn btn-danger" th:href="@{/note/deleteNote/{noteId}(noteId = ${note.getNoteId()})}">Delete</a>
+                                            <a id="btn-delete-note" class="btn btn-danger" th:href="@{/note/deleteNote/{noteId}(noteId = ${note.getNoteId()})}">Delete</a>
                                         </td>
                                         <th id="tableNoteTitle" scope="row" th:text="${note.getNoteTitle()}"></th>
                                         <td id="tableNoteDescription" th:text="${note.getNoteDescription()}"></td>
@@ -129,7 +129,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea class="form-control" name="noteDescription" th:field="*{description}" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <textarea id="note-description" class="form-control" name="noteDescription" th:field="*{description}" rows="5" maxlength="1000" required></textarea>
                                             </div>
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
