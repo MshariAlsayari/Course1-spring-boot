@@ -2,7 +2,6 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +12,7 @@ public class CredentialTest  extends CloudStorageApplicationTests {
 
     @Test
     public void teat_create_credential() {
-        String credentialUrl = "first credential";
+        String credentialUrl = "ftp://foo.bar.com/";
         String credentialUsername = "this is my first credential.";
         HomePage homePage = doRegistrationAndLogin();
         initCredential(credentialUrl, credentialUsername, homePage);
@@ -25,7 +24,7 @@ public class CredentialTest  extends CloudStorageApplicationTests {
 
     @Test
     public void teat_delete_credential() {
-        String credentialUrl = "first credential";
+        String credentialUrl = "ftp://foo.bar.com/";
         String credentialUsername = "this is my first credential.";
         HomePage homePage = doRegistrationAndLogin();
         initCredential(credentialUrl, credentialUsername, homePage);
@@ -37,10 +36,10 @@ public class CredentialTest  extends CloudStorageApplicationTests {
     }
 
     @Test
-    public void teat_edit_note() {
-        String credentialUrl = "first credential";
+    public void teat_edit_credential() {
+        String credentialUrl = "ftp://foo.bar.com/";
         String credentialUsername = "this is my first credential.";
-        String updatedCredentialUrl = "updated credential";
+        String updatedCredentialUrl = "http://foo.bar.com/";
         String updatedCredentialUsername = "my first updated credential.";
         HomePage homePage = doRegistrationAndLogin();
         initCredential(credentialUrl, credentialUsername, homePage);
@@ -49,6 +48,7 @@ public class CredentialTest  extends CloudStorageApplicationTests {
         Credential credential = homePage.getCredential();
         Assertions.assertEquals(updatedCredentialUrl, credential.getUrl());
         Assertions.assertEquals(updatedCredentialUsername, credential.getUserName());
+        deleteCredential(homePage);
     }
 
 

@@ -48,6 +48,7 @@ public class NoteTest extends CloudStorageApplicationTests {
         Note note = homePage.getNote();
         Assertions.assertEquals(updatedNoteTitle, note.getNoteTitle());
         Assertions.assertEquals(updatedNoteDescription, note.getNoteDescription());
+        deleteNote(homePage);
     }
 
 
