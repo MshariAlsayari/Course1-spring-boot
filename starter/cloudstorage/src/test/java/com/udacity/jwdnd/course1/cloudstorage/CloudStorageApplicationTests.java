@@ -17,9 +17,9 @@ import java.io.File;
 class CloudStorageApplicationTests {
 
 	@LocalServerPort
-	public int port;
+	private int port;
 
-	public WebDriver driver;
+	private WebDriver driver;
 
 	@BeforeAll
 	static void beforeAll() {
@@ -199,23 +199,6 @@ class CloudStorageApplicationTests {
 		Assertions.assertFalse(driver.getPageSource().contains("HTTP Status 403 – Forbidden"));
 
 	}
-
-	public HomePage doRegistrationAndLogin() {
-		driver.get("http://localhost:" + this.port + "/signup");
-		RegistrationPage registrationPage = new RegistrationPage(driver);
-		registrationPage.setFirstName("Mshari");
-		registrationPage.setLastName("Alsayari");
-		registrationPage.setUserName("mshari");
-		registrationPage.setPassword("123");
-		registrationPage.clickBtnRegister();
-		driver.get("http://localhost:" + this.port + "/login");
-		LoginPage loginPage = new LoginPage(driver);
-		loginPage.setUserName("mshari");
-		loginPage.setPassword("123");
-		loginPage.clickBtnLogin();
-		return new HomePage(driver);
-	}
-
 
 
 }
