@@ -41,12 +41,18 @@ public class HomePage {
     @FindBy(id = "noteSubmit")
     private WebElement btnSubmitNote;
 
-
     @FindBy(id = "tableNoteTitle")
     private WebElement noteTitle;
 
     @FindBy(id = "tableNoteDescription")
     private WebElement noteDescription;
+
+
+    @FindBy(id = "exampleNoteTitle")
+    private WebElement exampleNoteTitle;
+
+    @FindBy(id = "exampleNoteDescription")
+    private WebElement exampleNoteDescription;
 
 
 
@@ -94,10 +100,24 @@ public class HomePage {
         js.executeScript("arguments[0].click();", btnSubmitNote);
     }
 
+    public void clickOnDeleteNoteButton() {
+        js.executeScript("arguments[0].click();", btnDeleteNote);
+    }
+
+    public void clickOnEditNoteButton() {
+        js.executeScript("arguments[0].click();", btnEditNote);
+    }
+
 
     public Note getNote() {
         String title = wait.until(ExpectedConditions.elementToBeClickable(noteTitle)).getText();
         String description = noteDescription.getText();
+        return new Note(title, description);
+    }
+
+    public Note getExampleNote() {
+        String title = wait.until(ExpectedConditions.elementToBeClickable(exampleNoteTitle)).getText();
+        String description = exampleNoteDescription.getText();
         return new Note(title, description);
     }
 
