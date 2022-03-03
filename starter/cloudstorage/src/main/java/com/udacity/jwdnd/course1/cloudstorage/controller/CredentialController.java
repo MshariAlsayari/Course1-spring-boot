@@ -6,6 +6,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,27 +27,36 @@ public class CredentialController {
     @PostMapping
     public String submitCredential(Authentication authentication, @ModelAttribute("newCredential") CredentialForm newCredential, Model model) {
         String userName = authentication.getName();
+        UrlValidator urlValidator = new UrlValidator();
+        boolean isValid = urlValidator.isValid(newCredential.getUrl());
 
-        if (newCredential.getCredentialId().isEmpty()){
-            credentialService.createCredential(newCredential, userName);
-        }else {
-            Credential credential = getCredential(Integer.parseInt(newCredential.getCredentialId()));
-            credential.setUrl(newCredential.getUrl());
-            credential.setUserName(newCredential.getUserName());
-            if (!credential.getPassword().equals(newCredential.getPassword())){
-                Pair<String, String> pair = credentialService.getEncryptedPasswordAndKey(newCredential.getPassword());
-                credential.setKey(pair.getLeft());
-                credential.setPassword(pair.getRight());
+        if (isValid) {
 
+
+            if (newCredential.getCredentialId().isEmpty()) {
+                credentialService.createCredential(newCredential, userName);
+            } else {
+                Credential credential = getCredential(Integer.parseInt(newCredential.getCredentialId()));
+                credential.setUrl(newCredential.getUrl());
+                credential.setUserName(newCredential.getUserName());
+                if (!credential.getPassword().equals(newCredential.getPassword())) {
+                    Pair<String, String> pair = credentialService.getEncryptedPasswordAndKey(newCredential.getPassword());
+                    credential.setKey(pair.getLeft());
+                    credential.setPassword(pair.getRight());
+
+                }
+                credentialService.updateCredential(credential);
             }
-            credentialService.updateCredential(credential);
+
+
+            model.addAttribute("result", "success");
+        }else {
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "The url is not valid");
         }
+            return "result";
 
 
-
-
-        model.addAttribute("result", "success");
-        return "result";
     }
 
     @GetMapping(value ="/deleteCredential/{credentialId}")
