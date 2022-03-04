@@ -13,10 +13,10 @@ public class LoginTest extends BaseTest {
     public void teat_not_registered_user_access_home_page() {
         driver.get("http://localhost:" + this.port + "/login");
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.setUserName("mshari");
-        loginPage.setPassword("123");
+        loginPage.setUserName("jkauiffsffnk");
+        loginPage.setPassword("82374932842");
         loginPage.clickBtnLogin();
-        Assertions.assertEquals("http://localhost:" + this.port + "/login?error", driver.getCurrentUrl());
+        Assertions.assertEquals("Login", driver.getTitle());
 
     }
 
@@ -26,7 +26,8 @@ public class LoginTest extends BaseTest {
         homePage.clickOnLogoutButton();
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickBtnLogin();
-        Assertions.assertEquals("http://localhost:" + this.port + "/login?error", driver.getCurrentUrl());
+        loginPage.setUserName("dskjfah");
+        loginPage.setPassword("alsdf");
         Assertions.assertEquals("Login", driver.getTitle());
     }
 }
