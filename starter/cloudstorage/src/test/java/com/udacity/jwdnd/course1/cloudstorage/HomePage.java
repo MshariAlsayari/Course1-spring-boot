@@ -97,6 +97,9 @@ public class HomePage {
     @FindBy(id = "exampleCredentialPassword")
     private WebElement exampleCredentialPassword;
 
+    @FindBy(id = "btn-logout")
+    private WebElement btnLogout;
+
 
 
     private final JavascriptExecutor js;
@@ -181,6 +184,10 @@ public class HomePage {
 
     public void clickOnEditCredentialButton() {
         js.executeScript("arguments[0].click();", btnEditCredential);
+    }
+
+    public void clickOnLogoutButton() {
+        js.executeScript("arguments[0].click();", btnLogout);
     }
 
 
